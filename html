@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Simulador de Previsão de Falência Empresarial baseado em análise de dados de 43.405 empresas. Classificador Naive Bayes e Altman Z-Score.">
+    <title>FalênciaPrev — Simulador de Risco de Falência Empresarial</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="bg-glow-1"></div>
+    <div class="bg-glow-2"></div>
+    <div class="app-container">
+        <!-- ═══════════ SIDEBAR ═══════════ -->
+        <nav class="sidebar">
+            <div class="brand-section">
+                <i class="fas fa-chart-line brand-icon"></i>
+                <span class="brand-name">FalênciaPrev</span>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item active">
+                    <button data-target="view-home" id="nav-home">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button data-target="view-analysis" id="nav-analysis">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Análise Exploratória</span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button data-target="view-simulator" id="nav-simulator">
+                        <i class="fas fa-calculator"></i>
+                        <span>Simulador de Risco</span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button data-target="view-cases" id="nav-cases">
+                        <i class="fas fa-skull-crossbones"></i>
+                        <span>Casos de Falência</span>
+                    </button>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                Projeto Integrador III<br>
+                Dataset UCI · 43.405 empresas
+            </div>
+        </nav>
+        <!-- ═══════════ MAIN CONTENT ═══════════ -->
+        <main class="main-content">
+            <!-- ──────── VIEW: HOME / DASHBOARD ──────── -->
+            <section id="view-home" class="view-section active">
+                <div class="glass-panel hero-card">
+                    <div class="hero-text">
+                        <h1>Previsão de Falência<br>Empresarial</h1>
+                        <p>
+                            Plataforma de análise financeira baseada em Machine Learning.
+                            Utilizamos dados reais de <strong>43.405 empresas</strong> para prever o risco
+                            de falência da sua empresa com algoritmos de classificação estatística.
+                        </p>
+                        <button class="cta-button" onclick="navigateTo('view-simulator')">
+                            <i class="fas fa-rocket"></i> &nbsp; Analisar Minha Empresa
+                        </button>
+                    </div>
+                </div>
+                <!-- Stats -->
+                <div class="stat-grid">
+                    <div class="glass-panel stat-card">
+                        <div class="stat-icon"><i class="fas fa-database"></i></div>
+                        <div class="stat-value" data-count="43405">0</div>
+                        <div class="stat-label">Empresas Analisadas</div>
+                    </div>
+                    <div class="glass-panel stat-card">
+                        <div class="stat-icon"><i class="fas fa-building"></i></div>
+                        <div class="stat-value" data-count="41314">0</div>
+                        <div class="stat-label">Empresas Ativas</div>
+                    </div>
+                    <div class="glass-panel stat-card">
+                        <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="stat-value" data-count="2091">0</div>
+                        <div class="stat-label">Empresas Falidas</div>
+                    </div>
+                    <div class="glass-panel stat-card">
+                        <div class="stat-icon"><i class="fas fa-brain"></i></div>
+                        <div class="stat-value">64</div>
+                        <div class="stat-label">Atributos Financeiros</div>
+                    </div>
+                </div>
+                <!-- Methodology -->
+                <div class="glass-panel">
+                    <div class="panel-title"><i class="fas fa-cogs"></i> &nbsp; Metodologia</div>
+                    <div class="method-steps">
+                        <div class="method-step glass-panel">
+                            <div class="method-step-icon">📊</div>
+                            <div class="method-step-title">Dataset UCI</div>
+                            <div class="method-step-desc">Dados financeiros de empresas polonesas coletados entre 2000-2013, com 64 indicadores por empresa.</div>
+                        </div>
+                        <div class="method-step glass-panel">
+                            <div class="method-step-icon">🧮</div>
+                            <div class="method-step-title">Naive Bayes</div>
+                            <div class="method-step-desc">Classificador Gaussiano treinado com as médias e desvios-padrão reais de cada indicador para cada classe.</div>
+                        </div>
+                        <div class="method-step glass-panel">
+                            <div class="method-step-icon">📈</div>
+                            <div class="method-step-title">Altman Z-Score</div>
+                            <div class="method-step-desc">Modelo clássico de previsão de insolvência criado por Edward Altman (1968), utilizado mundialmente.</div>
+                        </div>
+                        <div class="method-step glass-panel">
+                            <div class="method-step-icon">🎯</div>
+                            <div class="method-step-title">Diagnóstico</div>
+                            <div class="method-step-desc">Comparação dos seus dados com as estatísticas reais de empresas ativas e falidas do dataset.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ──────── VIEW: ANÁLISE EXPLORATÓRIA ──────── -->
+            <section id="view-analysis" class="view-section">
+                <div class="section-header">
+                    <h2 class="section-title">Análise Exploratória de Dados</h2>
+                    <p class="section-desc">Visualizações dos padrões encontrados no dataset de 43.405 empresas.</p>
+                </div>
+                <!-- Distribution Chart -->
+                <div class="grid-2col">
+                    <div class="glass-panel">
+                        <div class="panel-title"><i class="fas fa-chart-pie"></i> &nbsp; Distribuição das Classes</div>
+                        <p style="color:var(--text-secondary);font-size:.85rem;margin-bottom:1rem;">
+                            O dataset é altamente desbalanceado: apenas 4,8% das empresas são falidas. Isso reflete a realidade — falências são eventos relativamente raros.
+                        </p>
+                        <div class="chart-container" id="chart-distribution"></div>
+                    </div>
+                    <div class="glass-panel">
+                        <div class="panel-title"><i class="fas fa-box"></i> &nbsp; Boxplots Comparativos</div>
+                        <p style="color:var(--text-secondary);font-size:.85rem;margin-bottom:1rem;">
+                            Distribuição dos 4 principais indicadores para empresas ativas (verde) vs. falidas (vermelho). As diferenças entre as medianas confirmam o poder preditivo.
+                        </p>
+                        <div class="chart-container" id="chart-boxplots"></div>
+                    </div>
+                </div>
+                <!-- Correlation Chart -->
+                <div class="glass-panel">
+                    <div class="panel-title"><i class="fas fa-sort-amount-down"></i> &nbsp; Top 15 Variáveis Mais Correlacionadas com Falência</div>
+                    <p style="color:var(--text-secondary);font-size:.85rem;margin-bottom:1rem;">
+                        Correlação com a variável alvo (Situação da Empresa). Barras vermelhas = correlação positiva (aumenta com falência). Barras verdes = correlação negativa (diminui com falência).
+                    </p>
+                    <div class="chart-container" id="chart-correlations" style="min-height:400px;"></div>
+                </div>
+                <!-- Heatmap -->
+                <div class="glass-panel">
+                    <div class="panel-title"><i class="fas fa-th"></i> &nbsp; Mapa de Calor — Correlação entre os 8 Principais Indicadores</div>
+                    <p style="color:var(--text-secondary);font-size:.85rem;margin-bottom:1rem;">
+                        Matriz de correlação entre as variáveis mais importantes. Vermelho indica correlação positiva, azul indica correlação negativa.
+                    </p>
+                    <div id="heatmap-container" style="overflow-x:auto;"></div>
+                </div>
+                <!-- Conclusion -->
+                <div class="glass-panel" style="border-left:3px solid var(--primary);">
+                    <div class="panel-title"><i class="fas fa-lightbulb"></i> &nbsp; Conclusão da Análise</div>
+                    <p style="color:var(--text-secondary);line-height:1.7;font-size:.95rem;">
+                        A Análise Exploratória de Dados permitiu compreender o comportamento financeiro das empresas e
+                        identificar os principais fatores associados à falência empresarial. Observou-se que
+                        <strong style="color:#ef4444;">empresas falidas</strong> apresentam, em geral,
+                        <strong>menor liquidez</strong>, <strong>menor lucratividade</strong>
+                        e <strong>maior nível de endividamento</strong>.
+                        Esses padrões justificam o uso dessas variáveis nos modelos preditivos implementados no
+                        simulador.
+                    </p>
+                </div>
+            </section>
+            <!-- ──────── VIEW: SIMULADOR DE RISCO ──────── -->
+            <section id="view-simulator" class="view-section">
+                <div class="section-header">
+                    <h2 class="section-title">Simulador de Risco de Falência</h2>
+                    <p class="section-desc">Insira os dados financeiros da sua empresa. Nós calculamos automaticamente todos os indicadores e índices.</p>
+                </div>
+                <!-- Example Buttons -->
+                <div class="glass-panel" style="padding:1.25rem 2rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
+                    <span style="color:var(--text-secondary);font-size:.9rem;"><i class="fas fa-flask"></i> &nbsp; Testar com exemplos:</span>
+                    <button class="btn-secondary" onclick="loadExampleHealthy()" style="padding:.6rem 1.25rem; font-size:.85rem;">
+                        <i class="fas fa-heart" style="color:var(--success);"></i> &nbsp; Empresa Saudável
+                    </button>
+                    <button class="btn-secondary" onclick="loadExampleBankrupt()" style="padding:.6rem 1.25rem; font-size:.85rem;">
+                        <i class="fas fa-skull" style="color:var(--danger);"></i> &nbsp; Empresa em Risco
+                    </button>
+                </div>
+                <!-- Input Form -->
+                <div class="glass-panel">
+                    <div class="panel-title"><i class="fas fa-edit"></i> &nbsp; Dados do Balanço Patrimonial</div>
+                    <p style="color:var(--text-secondary);font-size:.85rem;margin-bottom:1.5rem;">
+                        Preencha com os valores do balanço patrimonial e demonstrativo de resultados da empresa (em reais ou qualquer moeda, desde que todos os valores estejam na mesma unidade).
+                    </p>
+                    <div class="form-grid">
+                        <!-- Ativo Total -->
+                        <div class="input-group">
+                            <label class="input-label" for="inp-ativo-total">Ativo Total</label>
+                            <span class="input-desc">Soma de todos os bens e direitos da empresa</span>
+                            <div class="input-wrapper">
+                                <span class="input-currency-prefix">R$</span>
+                                <input type="number" id="inp-ativo-total" class="form-input" placeholder="Ex: 500000" step="any">
+                            </div>
+                        </div>
+                        <!-- Passivo Total -->
+                        <div class="input-group">
+                            <label class="input-label" for="inp-passivo-total">Passivo Total</label>
+                            <span class="input-desc">Soma de todas as obrigações (dívidas) da empresa</span>
+                            <div class="input-wrapper">
+                                <span class="input-currency-prefix">R$</span>
+                                <input type="number" id="inp-passivo-total" class="form-input" placeholder="Ex: 200000" step="any">
+                            </div>
+                        </div>
+                        <!-- Ativo Circulante -->
+                        <div class="input-group">
+                            <label class="input-label" for="inp-ativo-circulante">Ativo Circulante</label>
+                            <span class="input-desc">Bens e direitos de curto prazo (caixa, estoque, contas a receber)</span>
+                            <div class="input-wrapper">
+                                <span class="input-currency-prefix">R$</span>
+                                <input type="number" id="inp-ativo-circulante" class="form-input" placeholder="Ex: 250000" step="any">
+                            </div>
+                        </div>
+                        <!-- Passivo Circulante -->
+                        <div class="input-group">
+                            <label class="input-label" for="inp-passivo-circulante">Passivo Circulante</label>
+                            <span class="input-desc">Dívidas de curto prazo (fornecedores, impostos, empréstimos &lt; 1 ano)</span>
+                            <div class="input-wrapper">
+                                <span class="input-currency-prefix">R$</span>
+                                <input type="number" id="inp-passivo-circulante" class="form-input" placeholder="Ex: 80000" step="any">
+                            </div>
+                        </div>
+                        <!-- Lucros Retidos -->
+                        <div class="input-group">
+                            <label class="input-label" for="inp-lucro-retido">Lucros Retidos (Acumulados)</label>
+                            <span class="input-desc">Lucros acumulados ao longo da vida da empresa (pode ser negativo)</span>
+                            <div class="input-wrapper">
+                                <span class="input-currency-prefix">R$</span>
+                                <input type="number" id="inp-lucro-retido" class="form-input" placeholder="Ex: 120000" step="any">
+                            </div>
+                        </div>
+                        <!-- EBIT -->
+                        <div class="input-group">
+                            <label class="input-label" for="inp-ebit">EBIT (Lucro Operacional)</label>
+                            <span class="input-desc">Lucro antes de juros e impostos (Receita − Custos − Despesas operacionais)</span>
+                            <div class="input-wrapper">
+                                <span class="input-currency-prefix">R$</span>
+                                <input type="number" id="inp-ebit" class="form-input" placeholder="Ex: 75000" step="any">
+                            </div>
+                        </div>
+                        <!-- Vendas -->
+                        <div class="input-group">
+                            <label class="input-label" for="inp-vendas">Receita Líquida (Vendas)</label>
+                            <span class="input-desc">Receita total de vendas no período</span>
+                            <div class="input-wrapper">
+                                <span class="input-currency-prefix">R$</span>
+                                <input type="number" id="inp-vendas" class="form-input" placeholder="Ex: 600000" step="any">
+                            </div>
+                        </div>
+                        <!-- Lucro Líquido -->
+                        <div class="input-group">
+                            <label class="input-label" for="inp-lucro-liquido">Lucro Líquido</label>
+                            <span class="input-desc">Resultado final após todos os impostos e despesas</span>
+                            <div class="input-wrapper">
+                                <span class="input-currency-prefix">R$</span>
+                                <input type="number" id="inp-lucro-liquido" class="form-input" placeholder="Ex: 50000" step="any">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-secondary" onclick="clearForm()">
+                            <i class="fas fa-eraser"></i> &nbsp; Limpar
+                        </button>
+                        <button class="cta-button" onclick="handleAnalysis()">
+                            <i class="fas fa-search-dollar"></i> &nbsp; Analisar Risco de Falência
+                        </button>
+                    </div>
+                </div>
+                <!-- ═══ RESULTS DASHBOARD ═══ -->
+                <div id="results-dashboard" class="results-dashboard">
+                    <!-- Score Gauges -->
+                    <div class="glass-panel results-header-panel">
+                        <div class="score-gauges">
+                            <div class="gauge-item">
+                                <h4 style="margin-bottom:.75rem; font-size:1rem;">Classificador Naive Bayes</h4>
+                                <div class="gauge-svg-wrapper" id="gauge-nb"></div>
+                                <span id="badge-nb" class="risk-badge risk-safe">Baixo Risco</span>
+                                <p id="label-nb-detail" style="color:var(--text-secondary);font-size:.8rem;margin-top:.5rem;">—</p>
+                            </div>
+                            <div class="gauge-item">
+                                <h4 style="margin-bottom:.75rem; font-size:1rem;">Altman Z-Score</h4>
+                                <div class="gauge-svg-wrapper" id="gauge-zscore"></div>
+                                <span id="badge-zscore" class="risk-badge risk-safe">Zona Segura</span>
+                                <p id="label-zscore-detail" style="color:var(--text-secondary);font-size:.8rem;margin-top:.5rem;">—</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Z-Score Guide -->
+                    <div class="glass-panel" style="border-left:3px solid var(--accent);">
+                        <div class="panel-title"><i class="fas fa-info-circle"></i> &nbsp; Como interpretar o Z-Score de Altman</div>
+                        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1rem;">
+                            <div style="padding:1rem; border-radius:12px; background:var(--success-bg); border:1px solid rgba(16,185,129,.15); text-align:center;">
+                                <div style="font-size:1.5rem; font-weight:800; color:var(--success);">Z &gt; 2.90</div>
+                                <div style="font-size:.85rem; color:var(--success); font-weight:600; margin-top:.25rem;">Zona Segura</div>
+                                <div style="font-size:.75rem; color:var(--text-secondary); margin-top:.5rem;">Empresa financeiramente saudável</div>
+                            </div>
+                            <div style="padding:1rem; border-radius:12px; background:var(--warning-bg); border:1px solid rgba(245,158,11,.15); text-align:center;">
+                                <div style="font-size:1.5rem; font-weight:800; color:var(--warning);">1.23 — 2.90</div>
+                                <div style="font-size:.85rem; color:var(--warning); font-weight:600; margin-top:.25rem;">Zona de Alerta</div>
+                                <div style="font-size:.75rem; color:var(--text-secondary); margin-top:.5rem;">Requer atenção e monitoramento</div>
+                            </div>
+                            <div style="padding:1rem; border-radius:12px; background:var(--danger-bg); border:1px solid rgba(239,68,68,.15); text-align:center;">
+                                <div style="font-size:1.5rem; font-weight:800; color:var(--danger);">Z &lt; 1.23</div>
+                                <div style="font-size:.85rem; color:var(--danger); font-weight:600; margin-top:.25rem;">Zona de Perigo</div>
+                                <div style="font-size:.75rem; color:var(--text-secondary); margin-top:.5rem;">Alto risco de insolvência</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Comparison -->
+                    <div class="glass-panel">
+                        <div class="panel-title"><i class="fas fa-balance-scale"></i> &nbsp; Comparação com o Dataset</div>
+                        <p style="color:var(--text-secondary);font-size:.85rem;margin-bottom:.5rem;">
+                            Seus indicadores vs. a média de empresas ativas e falidas do dataset de 43.405 empresas.
+                        </p>
+                        <div class="comparison-grid" id="comparison-container"></div>
+                    </div>
+                </div>
+            </section>
+            <!-- ──────── VIEW: CASOS DE FALÊNCIA ──────── -->
+            <section id="view-cases" class="view-section">
+                <div class="section-header">
+                    <h2 class="section-title">Casos Históricos de Falência</h2>
+                    <p class="section-desc">Exemplos reais de grandes empresas que faliram e os fatores que levaram ao colapso.</p>
+                </div>
+                <div class="cases-grid" id="cases-container">
+                    <!-- Rendered by JS -->
+                </div>
+                <!-- Lessons Learned -->
+                <div class="glass-panel" style="margin-top:2rem; border-left:3px solid var(--warning);">
+                    <div class="panel-title"><i class="fas fa-graduation-cap"></i> &nbsp; Lições Aprendidas</div>
+                    <div style="color:var(--text-secondary); line-height:1.7; font-size:.95rem;">
+                        <p style="margin-bottom:1rem;">Analisando os casos acima, identificamos <strong style="color:var(--text-primary);">padrões comuns</strong> que precedem falências empresariais:</p>
+                        <ul style="list-style:none; display:flex; flex-direction:column; gap:.75rem;">
+                            <li><span style="color:var(--danger); font-weight:700;">❶</span> &nbsp; <strong>Alavancagem excessiva</strong> — Passivo Total muito superior ao Patrimônio Líquido (Attr2 e Attr7 extremos).</li>
+                            <li><span style="color:var(--danger); font-weight:700;">❷</span> &nbsp; <strong>Capital de giro negativo</strong> — Incapacidade de pagar obrigações de curto prazo (Attr3 negativo).</li>
+                            <li><span style="color:var(--danger); font-weight:700;">❸</span> &nbsp; <strong>Prejuízos operacionais recorrentes</strong> — EBIT consistentemente negativo (Attr6 negativo).</li>
+                            <li><span style="color:var(--danger); font-weight:700;">❹</span> &nbsp; <strong>Fraude contábil</strong> — Manipulação de balanços que mascara a real situação financeira.</li>
+                            <li><span style="color:var(--danger); font-weight:700;">❺</span> &nbsp; <strong>Falha em se adaptar</strong> — Empresas que não acompanham mudanças tecnológicas ou de mercado.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
